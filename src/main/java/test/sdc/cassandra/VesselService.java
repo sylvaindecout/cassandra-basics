@@ -57,6 +57,12 @@ public final class VesselService {
         this.mappingManager = new MappingManager(this.session);
     }
 
+    /**
+     * Get list of all vessels that are visible to site.
+     *
+     * @param center center
+     * @return list of all visible vessels
+     */
     public List<Vessel> findAll(final CenterReference center) {
         LOGGER.trace("Find vessels by site ID: {}", center);
         final Mapper<VesselsTable> mapper = this.mappingManager.mapper(VesselsTable.class);
@@ -72,6 +78,11 @@ public final class VesselService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get vessel from selected UUID.
+     * @param uuid UUID
+     * @return vessel
+     */
     public Optional<Vessel> find(final String uuid) {
         LOGGER.trace("Find vessel by UUID '{}'", uuid);
         final Mapper<VesselsByUuidTable> mapper = this.mappingManager.mapper(VesselsByUuidTable.class);
@@ -80,6 +91,12 @@ public final class VesselService {
         return Optional.ofNullable(entity).map(VesselsByUuidTable::toDomainModel);
     }
 
+    /**
+     * Find vessels by name fragment (among vessels that are visible to site).
+     * @param center center
+     * @param nameFragment name fragment
+     * @return list of visible vessels that match criterion
+     */
     public List<Vessel> findByNameFragment(final CenterReference center, final String nameFragment) {
         LOGGER.trace("Find vessel by name fragment '{}'", nameFragment);
         final List<VesselsTable> res = new ArrayList<>();
@@ -91,6 +108,12 @@ public final class VesselService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get rows that match input visibility and name fragment.
+     * @param visibility visibility
+     * @param nameFragment name fragment
+     * @return vessels table rows
+     */
     private List<VesselsTable> findByNameFragment(final String visibility, final String nameFragment) {
         final Mapper<VesselsTable> mapper = this.mappingManager.mapper(VesselsTable.class);
         final Select.Where query = select().all()
@@ -101,6 +124,12 @@ public final class VesselService {
         return mapper.map(result).all();
     }
 
+    /**
+     * Find vessels by category (among vessels that are visible to site).
+     * @param center center
+     * @param category vessel category
+     * @return list of visible vessels that match criterion
+     */
     public List<Vessel> findByCategory(final CenterReference center, final VesselCategoryReference category) {
         LOGGER.trace("Find vessel by category '{}'", category);
         final List<VesselsTable> res = new ArrayList<>();
@@ -112,6 +141,12 @@ public final class VesselService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get rows that match input visibility and category.
+     * @param visibility visibility
+     * @param category vessel category
+     * @return vessels table rows
+     */
     private List<VesselsTable> findByCategory(final String visibility, final VesselCategoryReference category) {
         final Mapper<VesselsTable> mapper = this.mappingManager.mapper(VesselsTable.class);
         final Select.Where query = select().all()
@@ -122,6 +157,11 @@ public final class VesselService {
         return mapper.map(result).all();
     }
 
+    /**
+     * Get list of vessels that departed recently from a selected port.
+     * @param departurePort departure port
+     * @return list of vessels for which last departure port matches input port and departure time is in the last hours
+     */
     public List<Vessel> findByDeparturePort(final PortReference departurePort) {
         LOGGER.trace("Find vessel by last departure port '{}'", departurePort);
         final Mapper<VesselsByDeparturePortTable> mapper = this.mappingManager.mapper(VesselsByDeparturePortTable.class);
@@ -163,17 +203,6 @@ public final class VesselService {
         LOGGER.trace("Update of vessel {} completed", vessel);
     }
 
-    public void remove(final String uuid) {
-        LOGGER.trace("Delete {}", uuid);
-        final Optional<Vessel> zone = this.find(uuid);
-        if (zone.isPresent()) {
-            delete(UUID.fromString(uuid), zone.get());
-            LOGGER.trace("Removal of vessel {} completed", uuid);
-        } else {
-            LOGGER.warn("No vessel found with ID {}", uuid);
-        }
-    }
-
     /**
      * Save vessel with input information into vessel tables.
      *
@@ -191,6 +220,22 @@ public final class VesselService {
             }
         }
         this.session.execute(batch);
+    }
+
+    /**
+     * Delete vessel with input UUID.
+     *
+     * @param uuid UUID
+     */
+    public void remove(final String uuid) {
+        LOGGER.trace("Delete {}", uuid);
+        final Optional<Vessel> vessel = this.find(uuid);
+        if (vessel.isPresent()) {
+            delete(UUID.fromString(uuid), vessel.get());
+            LOGGER.trace("Removal of vessel {} completed", uuid);
+        } else {
+            LOGGER.warn("No vessel found with ID {}", uuid);
+        }
     }
 
     /**

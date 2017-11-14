@@ -52,9 +52,9 @@ public final class VesselsByUuidTable {
     }
 
     /**
-     * Get unique zone identifier.
+     * Get UUID.
      *
-     * @return unique zone identifier
+     * @return UUID
      */
     public UUID getUuid() {
         return uuid;

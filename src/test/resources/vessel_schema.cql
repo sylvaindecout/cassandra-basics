@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS vessel.vessels_by_departure_port (
 --
 -- SSTable Attached Secondary Index
 --
-CREATE CUSTOM INDEX IF NOT EXISTS zone_name_index ON vessel.vessels (name)
+CREATE CUSTOM INDEX IF NOT EXISTS vessel_name_index ON vessel.vessels (name)
 USING 'org.apache.cassandra.index.sasi.SASIIndex'
 WITH OPTIONS = {
 	'mode' : 'CONTAINS',

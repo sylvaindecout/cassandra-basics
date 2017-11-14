@@ -79,9 +79,9 @@ public final class VesselsTable {
     }
 
     /**
-     * Get unique zone identifier.
+     * Get UUID.
      *
-     * @return unique zone identifier
+     * @return UUID
      */
     public UUID getUuid() {
         return uuid;
@@ -114,26 +114,51 @@ public final class VesselsTable {
         this.vessel = vessel;
     }
 
+    /**
+     * Get visibility.
+     *
+     * @return visibility
+     */
     public String getVisibility() {
         return this.visibility;
     }
 
+    /**
+     * Set visibility
+     * @param visibility visibility
+     */
     protected void setVisibility(final String visibility) {
         this.visibility = visibility;
     }
 
+    /**
+     * Get name.
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Set name.
+     *  @param name name
+     */
     protected void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * Get vessel category.
+     * @return vessel category
+     */
     public String getCategory() {
         return this.category;
     }
 
+    /**
+     * Set vessel category.
+     * @param category vessel category
+     */
     protected void setCategory(final String category) {
         this.category = category;
     }

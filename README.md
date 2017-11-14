@@ -40,7 +40,7 @@ Namespace: vessel
 
 A secondary index (SASI) is created against **name** attribute of **vessels** table, in order to be able to find rows that "contain" name fragments.
 
-Materialized view **vessels_by_category** is created to request zones against **category** attribute of **vessels** table.
+Materialized view **vessels_by_category** is created to request vessels against **category** attribute of **vessels** table.
 
 ### Get vessel from selected UUID
  - Table name: vessels_by_uuid

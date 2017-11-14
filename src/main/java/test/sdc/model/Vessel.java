@@ -38,50 +38,110 @@ public final class Vessel
         return new Builder(uuid);
     }
 
+    /**
+     * Get UUID.
+     *
+     * @return UUID
+     */
     public String getUuid() {
         return this.uuid;
     }
 
+    /**
+     * Set UUID
+     *
+     * @param uuid UUID
+     */
     private void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
+    /**
+     * Get name.
+     *
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Set name.
+     *
+     * @param name name
+     */
     private void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * Get vessel category.
+     *
+     * @return vessel category
+     */
     public VesselCategoryReference getCategory() {
         return this.category;
     }
 
+    /**
+     * Set vessel category.
+     *
+     * @param category vessel category
+     */
     private void setCategory(final VesselCategoryReference category) {
         this.category = category;
     }
 
+    /**
+     * Get visibility type.
+     *
+     * @return visibility type
+     */
     public VisibilityType getVisibility() {
         return this.visibility;
     }
 
+    /**
+     * Set visibility type.
+     *
+     * @param visibility visibility type
+     */
     private void setVisibility(final VisibilityType visibility) {
         this.visibility = visibility;
     }
 
+    /**
+     * Get creation center.
+     *
+     * @return creation center
+     */
     public CenterReference getCreationCenter() {
         return this.creationCenter;
     }
 
+    /**
+     * Set creation center.
+     *
+     * @param creationCenter creation center
+     */
     private void setCreationCenter(final CenterReference creationCenter) {
         this.creationCenter = creationCenter;
     }
 
+    /**
+     * Get last departure info.
+     *
+     * @return last departure info
+     */
     public Optional<VesselDeparture> getLastDeparture() {
         return Optional.ofNullable(this.lastDeparture);
     }
 
+    /**
+     * Set last departure info.
+     *
+     * @param lastDeparture last departure info
+     */
     private void setLastDeparture(final VesselDeparture lastDeparture) {
         this.lastDeparture = lastDeparture;
     }
@@ -145,47 +205,102 @@ public final class Vessel
             this.instance.setUuid(uuid);
         }
 
+        /**
+         * Update builder with input name.
+         *
+         * @param name name
+         * @return current builder instance
+         */
         public Builder withName(final String name) {
             this.instance.setName(name);
             return this;
         }
 
+        /**
+         * Update builder with input vessel category.
+         *
+         * @param category vessel category
+         * @return current builder instance
+         */
         public Builder withCategory(final VesselCategoryReference category) {
             this.instance.setCategory(category);
             return this;
         }
 
+        /**
+         * Update builder with input vessel category.
+         *
+         * @param categoryUuid vessel category
+         * @return current builder instance
+         */
         public Builder withCategory(final String categoryUuid) {
             final VesselCategoryReference category = VesselCategoryReference.of(categoryUuid);
             return this.withCategory(category);
         }
 
+        /**
+         * Update builder with input visibility type.
+         *
+         * @param visibility visibility type
+         * @return current builder instance
+         */
         public Builder withVisibility(final VisibilityType visibility) {
             this.instance.setVisibility(visibility);
             return this;
         }
 
+        /**
+         * Update builder with input creation center.
+         *
+         * @param creationCenter creation center
+         * @return current builder instance
+         */
         public Builder withCreationCenter(final CenterReference creationCenter) {
             this.instance.setCreationCenter(creationCenter);
             return this;
         }
 
+        /**
+         * Update builder with input creation center.
+         *
+         * @param creationCenterUuid creation center
+         * @return current builder instance
+         */
         public Builder withCreationCenter(final String creationCenterUuid) {
             final CenterReference creationCenter = CenterReference.of(creationCenterUuid);
             return this.withCreationCenter(creationCenter);
         }
 
+        /**
+         * Update builder with input last departure info.
+         *
+         * @param lastDeparturePort last departure port
+         * @param lastDepartureTime last departure time
+         * @return current builder instance
+         */
         public Builder withDeparture(final PortReference lastDeparturePort, final Instant lastDepartureTime) {
             final VesselDeparture departureInfo = VesselDeparture.of(lastDeparturePort, lastDepartureTime);
             this.instance.setLastDeparture(departureInfo);
             return this;
         }
 
+        /**
+         * Update builder with input last departure info.
+         *
+         * @param lastDeparturePortUuid last departure port
+         * @param lastDepartureTime     last departure time
+         * @return current builder instance
+         */
         public Builder withDeparture(final String lastDeparturePortUuid, final Instant lastDepartureTime) {
             final PortReference lastDeparturePort = PortReference.of(lastDeparturePortUuid);
             return this.withDeparture(lastDeparturePort, lastDepartureTime);
         }
 
+        /**
+         * Build vessel instance.
+         *
+         * @return vessel
+         */
         public Vessel build() {
             requireNonNull(this.instance.name, "Name is mandatory");
             requireNonNull(this.instance.category, "Category is mandatory");

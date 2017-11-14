@@ -28,8 +28,7 @@ public final class VesselUdt {
     /**
      * Default constructor.
      */
-    protected VesselUdt() {
-        super();
+    private VesselUdt() {
     }
 
     /**

@@ -181,6 +181,11 @@ public final class Vessel
             return this;
         }
 
+        public Builder withDeparture(final String lastDeparturePortUuid, final Instant lastDepartureTime) {
+            final PortReference lastDeparturePort = PortReference.of(lastDeparturePortUuid);
+            return this.withDeparture(lastDeparturePort, lastDepartureTime);
+        }
+
         public Vessel build() {
             requireNonNull(this.instance.name, "Name is mandatory");
             requireNonNull(this.instance.category, "Category is mandatory");

@@ -80,6 +80,7 @@ public final class VesselService {
 
     /**
      * Get vessel from selected UUID.
+     *
      * @param uuid UUID
      * @return vessel
      */
@@ -93,7 +94,8 @@ public final class VesselService {
 
     /**
      * Find vessels by name fragment (among vessels that are visible to site).
-     * @param center center
+     *
+     * @param center       center
      * @param nameFragment name fragment
      * @return list of visible vessels that match criterion
      */
@@ -110,7 +112,8 @@ public final class VesselService {
 
     /**
      * Get rows that match input visibility and name fragment.
-     * @param visibility visibility
+     *
+     * @param visibility   visibility
      * @param nameFragment name fragment
      * @return vessels table rows
      */
@@ -126,7 +129,8 @@ public final class VesselService {
 
     /**
      * Find vessels by category (among vessels that are visible to site).
-     * @param center center
+     *
+     * @param center   center
      * @param category vessel category
      * @return list of visible vessels that match criterion
      */
@@ -143,8 +147,9 @@ public final class VesselService {
 
     /**
      * Get rows that match input visibility and category.
+     *
      * @param visibility visibility
-     * @param category vessel category
+     * @param category   vessel category
      * @return vessels table rows
      */
     private List<VesselsTable> findByCategory(final String visibility, final VesselCategoryReference category) {
@@ -159,6 +164,7 @@ public final class VesselService {
 
     /**
      * Get list of vessels that departed recently from a selected port.
+     *
      * @param departurePort departure port
      * @return list of vessels for which last departure port matches input port and departure time is in the last hours
      */

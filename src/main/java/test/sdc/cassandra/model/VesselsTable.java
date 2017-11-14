@@ -125,6 +125,7 @@ public final class VesselsTable {
 
     /**
      * Set visibility
+     *
      * @param visibility visibility
      */
     protected void setVisibility(final String visibility) {
@@ -133,6 +134,7 @@ public final class VesselsTable {
 
     /**
      * Get name.
+     *
      * @return name
      */
     public String getName() {
@@ -141,7 +143,8 @@ public final class VesselsTable {
 
     /**
      * Set name.
-     *  @param name name
+     *
+     * @param name name
      */
     protected void setName(final String name) {
         this.name = name;
@@ -149,6 +152,7 @@ public final class VesselsTable {
 
     /**
      * Get vessel category.
+     *
      * @return vessel category
      */
     public String getCategory() {
@@ -157,6 +161,7 @@ public final class VesselsTable {
 
     /**
      * Set vessel category.
+     *
      * @param category vessel category
      */
     protected void setCategory(final String category) {

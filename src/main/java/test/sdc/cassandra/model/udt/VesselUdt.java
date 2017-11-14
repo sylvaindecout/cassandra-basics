@@ -97,6 +97,7 @@ public final class VesselUdt {
 
     /**
      * Get center that created the vessel instance.
+     *
      * @return center that created the vessel instance
      */
     public String getCreationCenter() {
@@ -105,6 +106,7 @@ public final class VesselUdt {
 
     /**
      * Get last departure port.
+     *
      * @return last departure port
      */
     public String getLastDeparturePort() {
@@ -113,6 +115,7 @@ public final class VesselUdt {
 
     /**
      * Get last departure time.
+     *
      * @return last departure time
      */
     public Date getLastDepartureTime() {

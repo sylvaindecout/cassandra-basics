@@ -69,26 +69,53 @@ public final class VesselUdt {
         return builder.build();
     }
 
+    /**
+     * Get name.
+     *
+     * @return name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Get vessel category.
+     *
+     * @return vessel category
+     */
     public String getCategory() {
         return this.category;
     }
 
+    /**
+     * Get visibility.
+     *
+     * @return visibility
+     */
     public VisibilityType getVisibility() {
         return this.visibility;
     }
 
+    /**
+     * Get center that created the vessel instance.
+     * @return center that created the vessel instance
+     */
     public String getCreationCenter() {
         return this.creationCenter;
     }
 
+    /**
+     * Get last departure port.
+     * @return last departure port
+     */
     public String getLastDeparturePort() {
         return this.lastDeparturePort;
     }
 
+    /**
+     * Get last departure time.
+     * @return last departure time
+     */
     public Date getLastDepartureTime() {
         return this.lastDepartureTime;
     }

@@ -175,8 +175,7 @@ public final class Vessel
             return this.withCreationCenter(creationCenter);
         }
 
-        public Builder withDeparture(final String lastDeparturePortUuid, final Instant lastDepartureTime) {
-            final PortReference lastDeparturePort = PortReference.of(lastDeparturePortUuid);
+        public Builder withDeparture(final PortReference lastDeparturePort, final Instant lastDepartureTime) {
             final VesselDeparture departureInfo = VesselDeparture.of(lastDeparturePort, lastDepartureTime);
             this.instance.setLastDeparture(departureInfo);
             return this;

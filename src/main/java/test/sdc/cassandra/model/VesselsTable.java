@@ -31,8 +31,7 @@ public final class VesselsTable {
     /**
      * Default constructor.
      */
-    protected VesselsTable() {
-        super();
+    private VesselsTable() {
     }
 
     /**
@@ -59,6 +58,15 @@ public final class VesselsTable {
                 throw new IllegalStateException("Unexpected vessel visibility: " + inputObject.getVisibility());
         }
         return res;
+    }
+
+    /**
+     * Map current object into domain data model.
+     *
+     * @return domain data model object
+     */
+    public Vessel toDomainModel() {
+        return this.vessel.toDomainModel(this.uuid);
     }
 
     /**
@@ -158,15 +166,6 @@ public final class VesselsTable {
     @Override
     public String toString() {
         return String.format("%s (%s)", this.vessel.getName(), this.uuid);
-    }
-
-    /**
-     * Map current object into domain data model.
-     *
-     * @return domain data model object
-     */
-    public Vessel toDomainModel() {
-        return this.vessel.toDomainModel(this.uuid);
     }
 
 }

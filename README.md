@@ -1,11 +1,17 @@
 # cassandra-basics
 
+Basic example of data modelling and implementation for Cassandra, including:
+ - SASI
+ - Materialized views
+ - Range queries
+ - Table with TTL
+
 ## Business data model
 
 A vessel has several attributes:
  - UUID: unique technical identifier
  - Name: display label, not necessarily unique
- - Category: _cargo_ or _windsurf_
+ - Category: vessel category (_cargo_, _windsurf_, etc.)
  - Visibility: either "all centers", or "creation center only"
  - Creation center: ID of the center that created the vessel instance
  - Last departure port: ID of the port that the vessel last departed from (only applicable to category _cargo_)
@@ -44,8 +50,9 @@ Materialized view **vessels_by_category** is created to request zones against **
 ### Get list of vessels that departed recently from a selected port
  - Table name: vessels_by_departure_port
  - Partitioning key(s): last departure port
- - Clustering key(s): UUID
+ - Clustering key(s): last departure time, UUID
 
-Only vessels with category _cargo_ are inserted in this table.
+Only vessels with last departure info available are inserted in this table.
 
-A TTL is set in order for the content of this table to be removed when it is not relevant anymore.
+**Last departure time** clustering column is used to order results, as well as to perform range queries, so that obsolete data is filtered out.
+A default TTL is defined at the definition of the table so that obsolete content does not stay in the table indefinitely.

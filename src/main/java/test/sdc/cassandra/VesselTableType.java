@@ -1,5 +1,6 @@
 package test.sdc.cassandra;
 
+import test.sdc.cassandra.model.VesselsByDeparturePortTable;
 import test.sdc.cassandra.model.VesselsByUuidTable;
 import test.sdc.cassandra.model.VesselsTable;
 import test.sdc.model.Vessel;
@@ -22,6 +23,18 @@ enum VesselTableType {
         @Override
         public <T> T getEntity(final UUID uuid, final Vessel vessel) {
             return (T) VesselsByUuidTable.from(uuid, vessel);
+        }
+    },
+
+    VESSELS_BY_DEPARTURE_PORT(VesselsByDeparturePortTable.class) {
+        @Override
+        public <T> T getEntity(final UUID uuid, final Vessel vessel) {
+            return (T) VesselsByDeparturePortTable.from(uuid, vessel);
+        }
+
+        @Override
+        public boolean isRelevant(final Vessel vessel) {
+            return vessel.getLastDeparture().isPresent();
         }
     },;
 

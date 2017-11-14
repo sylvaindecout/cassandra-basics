@@ -10,11 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import test.sdc.model.CenterReference;
-import test.sdc.model.Vessel;
-import test.sdc.model.VesselCategoryReference;
-import test.sdc.model.VisibilityType;
+import test.sdc.model.*;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,14 +32,6 @@ public class VesselServiceIT {
 
     @InjectMocks
     private VesselService service;
-
-    private static Vessel.Builder initVessel(final String name, final VisibilityType visibility, final CenterReference creationCenter) {
-        return Vessel.newInstance()
-                .withName(name)
-                .withCategory("Cargo")
-                .withVisibility(visibility)
-                .withCreationCenter(creationCenter);
-    }
 
     @Before
     public void init()
@@ -238,9 +228,57 @@ public class VesselServiceIT {
                 .doesNotContain(nonMatchingGlobalVessel, nonMatchingHiddenVessel, nonMatchingLocalVessel);
     }
 
+    /**
+     * Initialize vessel builder instance with visibility details.
+     *
+     * @param name           name
+     * @param visibility     visibility type
+     * @param creationCenter creation center
+     * @return vessel builder
+     */
+    private static Vessel.Builder initVessel(final String name, final VisibilityType visibility, final CenterReference creationCenter) {
+        return Vessel.newInstance()
+                .withName(name)
+                .withCategory("Cargo")
+                .withVisibility(visibility)
+                .withCreationCenter(creationCenter);
+    }
+
+    /**
+     * Initialize vessel instance with last departure details.
+     *
+     * @param name name
+     * @param port last departure port
+     * @param time last departure time
+     * @return vessel
+     */
+    private static Vessel initVesselWithDeparture(final String name, final PortReference port, final Instant time) {
+        return Vessel.newInstance()
+                .withName(name)
+                .withCategory("Cargo")
+                .withVisibility(ALL_CENTERS)
+                .withCreationCenter("123")
+                .withDeparture(port, time)
+                .build();
+    }
+
     @Test
     public void should_expose_list_of_vessels_that_departed_recently_by_port() {
-        throw new RuntimeException("TODO!");
+        final PortReference testPort = PortReference.of("Le Havre");
+        final PortReference otherPort = PortReference.of("Katmandu");
+        final Vessel vessel1 = initVesselWithDeparture("Vessel_1", testPort, Instant.now().minusSeconds(60_000));
+        final Vessel vessel2 = initVesselWithDeparture("Vessel_2", testPort, Instant.now().minusSeconds(40_000));
+        final Vessel vesselFromOtherPort = initVesselWithDeparture("Vessel_3", otherPort, Instant.now().minusSeconds(60_000));
+        final Vessel vesselFromNoPort = initVessel("Vessel_4", ALL_CENTERS, CenterReference.of("123")).build();
+        final Vessel vesselFromLongAgo = initVesselWithDeparture("Vessel_5", testPort, Instant.now().minusSeconds(2_000_000));
+        for (final Vessel vessel : new Vessel[]{vessel1, vessel2, vesselFromOtherPort, vesselFromNoPort, vesselFromLongAgo}) {
+            this.service.update(vessel);
+        }
+
+        final List<Vessel> actual = this.service.findByDeparturePort(testPort);
+
+        assertThat(actual).contains(vessel1, vessel2)
+                .doesNotContain(vesselFromOtherPort, vesselFromNoPort, vesselFromLongAgo);
     }
 
 }

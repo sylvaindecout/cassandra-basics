@@ -37,6 +37,15 @@ CREATE TABLE IF NOT EXISTS vessel.vessels_by_uuid (
 	PRIMARY KEY ( uuid )
 );
 
+CREATE TABLE IF NOT EXISTS vessel.vessels_by_departure_port (
+	last_departure_port text,
+	last_departure_time timestamp,
+	uuid UUID,
+	vessel FROZEN<vessel>,
+	PRIMARY KEY ( last_departure_port, last_departure_time, uuid )
+) WITH CLUSTERING ORDER BY ( last_departure_time DESC, uuid DESC )
+    AND default_time_to_live = 80000;
+
 --
 -- SSTable Attached Secondary Index
 --

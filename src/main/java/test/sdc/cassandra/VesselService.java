@@ -10,15 +10,15 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import test.sdc.cassandra.model.VesselsByDeparturePortTable;
 import test.sdc.cassandra.model.VesselsByUuidTable;
 import test.sdc.cassandra.model.VesselsTable;
 import test.sdc.model.*;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
@@ -28,10 +28,12 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.*;
  */
 public final class VesselService {
 
-    /**
-     * Logger.
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(VesselService.class);
+
+    /**
+     * Range that is considered as recent when providing the list of recent departures.
+     */
+    private static final Duration DEPARTURE_RANGE = Duration.ofHours(20L);
 
     private Session session;
     private MappingManager mappingManager;
@@ -121,7 +123,19 @@ public final class VesselService {
     }
 
     public List<Vessel> findByDeparturePort(final PortReference departurePort) {
-        return null; //TODO
+        LOGGER.trace("Find vessel by last departure port '{}'", departurePort);
+        final Mapper<VesselsByDeparturePortTable> mapper = this.mappingManager.mapper(VesselsByDeparturePortTable.class);
+        final Instant since = Instant.now().minus(DEPARTURE_RANGE);
+        final Select.Where query = select().all()
+                .from("vessels_by_departure_port")
+                .where(eq("last_departure_port", departurePort.getUuid()))
+                .and(gt("last_departure_time", Date.from(since)));
+        final ResultSet result = this.session.execute(query);
+        final List<VesselsByDeparturePortTable> res = mapper.map(result).all();
+        LOGGER.trace("Found {}match(es) for last departure port={}", res.size(), departurePort);
+        return res.stream()
+                .map(VesselsByDeparturePortTable::toDomainModel)
+                .collect(Collectors.toList());
     }
 
     /**

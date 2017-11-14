@@ -1,10 +1,11 @@
 # cassandra-basics
 
 Basic example of data modelling and implementation for Cassandra, including:
- - SASI
- - Materialized views
- - Range queries
+ - SASI (to allow complex queries, such as contains, suffix, etc.)
+ - Materialized views (not recommended since it increases write time)
+ - Range queries 
  - Table with TTL
+ - Batch statements (to ensure consistence between tables)
 
 ## Business data model
 

@@ -57,3 +57,7 @@ Only vessels with last departure info available are inserted in this table.
 
 **Last departure time** clustering column is used to order results, as well as to perform range queries, so that obsolete data is filtered out.
 A default TTL is defined at the definition of the table so that obsolete content does not stay in the table indefinitely.
+
+## How to run
+
+ - Run tests from IDE / Maven build
